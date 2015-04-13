@@ -9,6 +9,8 @@
 	    html, body
 		{
 			background: rgba(39,54,72,1);
+			margin :0;
+			
 
 		}
 
@@ -21,7 +23,7 @@
 			height: auto;
 			max-height: 20%;
 			display: inline-block;
-			margin: 5px;
+			margin-bottom: 5px;
 			padding: 0;
 			overflow: hidden;
 			background: rgba(251,241,241,0.9);
@@ -53,7 +55,8 @@
 			width: 25%;
 			overflow: hidden;
 			top: 5px;
-			bottom: 10px;
+			bottom: 15px;
+			right:15px;
 			background: #E6A1AD;
 			display: inline-block;
 		}
@@ -79,7 +82,7 @@
   </head>
   <body ng-app="myApp" ng-controller="indexCtrl">
 
-  	<div style="font-size: 5em; padding: 10px; width: 100%; text-align: center; font-weight: bold;color: white;">天 榜</div>
+  	<div style="font-size: 5em; padding: 10px; width: 100%; text-align: center; font-weight: bold;color: white;">建 榜</div>
 	<div class="rankcontain">
 		<div class="col-lg-4 col-lg-offset-4 col-xs-12" ng-repeat="user in users">
 			<div class="rank">
