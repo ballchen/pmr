@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel='stylesheet' href='/components/bootstrap/dist/css/bootstrap.css' />
+    <link rel='stylesheet' href='/components/font-awesome/css/font-awesome.css' />
+    <style>
+
+    </style>
+  </head>
+  <body ng-app="adminApp" ng-controller="adminCtrl">
+  
+  	<div class="container" >
+  		<div class="col-lg-4 col-lg-offset-4 col-xs-12">
+  			<div class="form-group">
+  				<button class="btn btn-primary form-control">審判</button>
+  			</div>
+  			<div class="panel panel-default">
+			  <div class="panel-heading">
+			    <h3 class="panel-title">尚未審查</h3>
+			  </div>
+			  <div class="panel-body">
+			    <ul>
+			    	<li ng-repeat="record in records">{{record.user}}-{{record.createAt}}</li>
+			    </ul>
+			  </div>
+			</div>
+  		</div>
+  	</div>
+
+    <script src="/components/jquery/dist/jquery.min.js"></script>
+    <script src="/components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="/components/angular/angular.js"></script>
+    <script src="/javascripts/admin/app.js"></script>
+  </body>
+</html>

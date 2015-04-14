@@ -8,4 +8,10 @@ router.get('/', function(req, res) {
 	});
 });
 
+router.get('/zoo', function(req, res) {
+	res.render('admin', {
+		title: '偷偷進後台'
+	});
+});
+
 module.exports = router;

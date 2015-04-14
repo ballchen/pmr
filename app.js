@@ -6,6 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var async = require('async');
 var _ = require('underscore');
+var moment = require('moment');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -32,17 +33,49 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 
 app.get('/api/add/:id', function(req, res) {
-    var newRec = new Record({
+    Record.find({
         user: req.params.id
-    });
-    newRec.save(function(err, data) {
-        if (err) {
-            return res.status(404).json({
-                msg: err
+    }).sort({
+        createAt: -1
+    }).exec(function(err, data) {
+        if (data.length) {
+            var a = moment(data[0].createAt).valueOf();
+            var b = moment().valueOf();
+            if ((b - a) < 1000 * 60 * 2) {
+                return res.status(500).json({
+                    msg: "cool down. wait " + (1000 * 60 * 2 - (b - a)) / 1000 + " seconds.",
+                    cooldown: ((1000 * 60 * 2 - (b - a)) / 1000)
+                });
+            } else {
+                var newRec = new Record({
+                    user: req.params.id
+                });
+                newRec.save(function(err, data) {
+                    if (err) {
+                        return res.status(404).json({
+                            msg: err
+                        });
+                    }
+                    res.json(data);
+                });
+            }
+        } else {
+            var newRec = new Record({
+                user: req.params.id
+            });
+            newRec.save(function(err, data) {
+                if (err) {
+                    return res.status(404).json({
+                        msg: err
+                    });
+                }
+                res.json(data);
             });
         }
-        res.json(data);
+
     });
+
+
 });
 
 app.delete('/api/:id', function(req, res) {
@@ -66,12 +99,37 @@ app.get('/api/user', function(req, res) {
             Record.find({
                 user: elem.id,
                 archive: false
+            }).sort({
+                createAt: -1
             }).exec(function(err, result) {
+
                 var extra = (10 * result.length);
+                var cooldown = 0;
+
+                if (result.length) {
+
+                    a = moment(result[0].createAt).valueOf();
+                    var b = moment().valueOf();
+
+
+                    if ((b - a) < 1000 * 60 * 2) {
+
+                        cooldown = (1000 * 60 * 2 - (b - a));
+
+                    } else {
+                        cooldown = 0;
+                    }
+                }
+
+
+
                 finalresult.push(_.extend(_.pick(elem, 'id', 'name', 'basic'), {
                     extra: extra,
-                    all: (extra + elem.basic)
+                    all: (extra + elem.basic),
+                    cooldown: Math.ceil(cooldown / 1000)
                 }));
+
+
                 callback();
             });
         }, function(err2) {
@@ -90,6 +148,20 @@ app.get('/api/user', function(req, res) {
 
 app.get('/api/record', function(req, res) {
     Record.find().exec(function(err, data) {
+        if (err) {
+            return res.status(404).json({
+                msg: err
+            });
+        }
+        res.json(data);
+    });
+});
+
+app.get('/api/record/false', function(req, res) {
+    Record.find({
+        archive: false
+    }).exec(function(err, data) {
+
         if (err) {
             return res.status(404).json({
                 msg: err

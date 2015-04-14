@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel='stylesheet' href='/components/bootstrap/dist/css/bootstrap.css' />
     <link rel='stylesheet' href='/components/font-awesome/css/font-awesome.css' />
+    <link rel='stylesheet' href='/components/sweetalert/lib/sweet-alert.css' />
     <style>
 	    html, body
 		{
@@ -63,13 +64,16 @@
 
 		.rank .add .addbut{
 			height: 100%;
-  display: -webkit-flex;
-  display:         flex;
-  -webkit-align-items: center;
-          align-items: center;
-  -webkit-justify-content: center;
-          justify-content: center;
-          color: rgba(221,213,215,1);
+			width: 100%;
+			text-align: center;
+			display: -webkit-flex;
+			display:         flex;
+			-webkit-align-items: center;
+			align-items: center;
+			-webkit-justify-content: center;
+			justify-content: center;
+
+	        color: rgba(221,213,215,1);
 		}
 		.rank .add .addcover{
 			position: absolute;
@@ -82,24 +86,27 @@
   </head>
   <body ng-app="myApp" ng-controller="indexCtrl">
 
-  	<div style="font-size: 5em; padding: 10px; width: 100%; text-align: center; font-weight: bold;color: white;">建 榜</div>
+  	<div style="font-size: 5em; padding: 10px; width: 100%; text-align: center; font-weight: bold;color: white;">建 榜
+	
+  	</div>
 	<div class="rankcontain">
 		<div class="col-lg-4 col-lg-offset-4 col-xs-12" ng-repeat="user in users">
 			<div class="rank">
 				<div class="photo">
-					<img src="/images/{{user.name}}.png" alt="">
+					<img ng-src="/images/{{user.name}}.png" alt="">
 				</div>
 				<div class="info">
-					<div class="name"><h4>{{user.name}}</h4></div>
-					<div class="score"><h4>{{user.basic}} + {{user.extra}}</h4></div>
+					<div class="name"><h4 ng-bind="user.name"></h4></div>
+					<div class="score"><h4 ng-bind="user.basic +'+'+ user.extra"></h4></div>
 					
 				</div>
 				<div class="add">
-					<div class="addcover" ng-hide="user.click" ng-click="clickAdd(user)">
+	<!-- 				<div class="addcover" ng-hide="user.click" ng-click="clickAdd(user)"> -->
 						
-					</div>
-					<div class="addbut" ng-show="user.click" ng-click="clickAddConfirm(user)">
-						<i class="fa fa-plus fa-3x"></i>
+					<!-- </div> -->
+					<div class="addbut" id="timerSec" ng-click="clickAddConfirm(user, $index)">
+						<i class="fa fa-plus fa-3x" ng-show="user.cooldown == 0"></i>
+						<timer ng-hide="user.cooldown == 0" countdown="user.cooldown" interval="1000" finish-callback="countdownFin(user.cooldown, $index)">冷卻中<br>{{countdown}}</timer>
 					</div>
 					
 					
@@ -109,10 +116,18 @@
 			
 		</div>
 	</div>
-
+	
     <script src="/components/jquery/dist/jquery.min.js"></script>
     <script src="/components/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="/components/angular/angular.js"></script>
+    <script src="/components/angular-sweetalert/SweetAlert.js"></script>
+    <script src="/components/sweetalert/lib/sweet-alert.js"></script>
+    <script src="/components/momentjs/min/moment.min.js"></script>
+    <script src="/components/momentjs/min/locales.min.js"></script>
+    <script src="/components/humanize-duration/humanize-duration.js"></script>
+    <script src="/components/angular-timer/dist/angular-timer.js"></script>
+
+
     <script src="/javascripts/app.js"></script>
   </body>
 </html>
