@@ -149,19 +149,30 @@ app.get('/api/user', function(req, res) {
 });
 
 app.get('/api/record', function(req, res) {
-    Record.find().exec(function(err, data) {
+    Record.find().sort({
+        createAt: -1
+    }).exec(function(err, data) {
         if (err) {
             return res.status(404).json({
                 msg: err
             });
         }
-        res.json(data);
+        var result = [];
+        data.forEach(function(elem) {
+            result.push(_.extend(_.pick(elem, 'id', 'user', 'reason', 'archive'), {
+                createAt: moment(elem.createAt).calendar()
+            }));
+        });
+        console.log(result)
+        result = _.groupBy(result, 'user');
+        res.json(result);
     });
 });
-
 app.get('/api/record/false', function(req, res) {
     Record.find({
         archive: false
+    }).sort({
+        createAt: -1
     }).exec(function(err, data) {
 
         if (err) {
@@ -169,7 +180,24 @@ app.get('/api/record/false', function(req, res) {
                 msg: err
             });
         }
-        res.json(data);
+        var result = [];
+        data.forEach(function(elem) {
+            result.push(_.extend(_.pick(elem, 'id', 'user', 'reason', 'archive'), {
+                createAt: moment(elem.createAt).calendar()
+            }));
+        });
+        async.each(result, function(record, callback) {
+            User.findOne({
+                id: record.user
+            }).exec(function(err, user) {
+                record.name = user.name;
+                callback()
+            });
+        }, function(err) {
+            res.json(result);
+        });
+
+
     });
 });
 

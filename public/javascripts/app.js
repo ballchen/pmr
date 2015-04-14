@@ -1,4 +1,4 @@
-var app = angular.module('myApp', ['oitozero.ngSweetAlert', 'timer']);
+var app = angular.module('myApp', ['oitozero.ngSweetAlert']);
 app.controller('indexCtrl', ['$scope', '$http', '$timeout', '$interval', function($scope, $http, $timeout, $interval) {
 	$http({
 		method: 'GET',
@@ -12,6 +12,17 @@ app.controller('indexCtrl', ['$scope', '$http', '$timeout', '$interval', functio
 	}).error(function(data) {
 		swal('唉呀', data.msg, 'error');
 	});
+
+	$http({
+		method: 'GET',
+		url: '/api/record'
+	}).success(function(data) {
+		$scope.records = data;
+
+	}).error(function(data) {
+		swal('唉呀', data.msg, 'error');
+	});
+
 	$scope.clickAdd = function(user, idx) {
 		$scope.reason = "";
 		$scope.userModal = {};
@@ -41,6 +52,12 @@ app.controller('indexCtrl', ['$scope', '$http', '$timeout', '$interval', functio
 
 	$scope.PlusD = function(idx) {
 		$scope.users[idx].image = '/images/' + $scope.users[idx].name + 'd.png'
+	};
+
+	$scope.seeRecord = function(user) {
+
+		$scope.recordModal = $scope.records[user.id];
+		console.log($scope.recordModal)
 	};
 
 	var calcooldown = function() {

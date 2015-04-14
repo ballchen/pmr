@@ -46,7 +46,7 @@
 			
 		}
 		.rank .info .name{
-
+			
 		}
 		.rank .info .score{
 
@@ -95,9 +95,9 @@
 				<div class="photo" ng-click='PlusD($index)'>
 					<img ng-src="{{user.image}}" alt="">
 				</div>
-				<div class="info">
-					<div class="name"><h4 ng-bind="user.name"></h4></div>
-					<div class="score"><h4 ng-bind="user.basic +'+'+ user.extra"></h4></div>
+				<div class="info" ng-click="seeRecord(user)" data-toggle="modal" data-target="#recordModal">
+					<div class="name"><h3 ng-bind="user.name"></h3></div>
+					<div class="score"><h3 ng-bind="user.basic +'+'+ user.extra"></h3></div>
 					
 				</div>
 				<div class="add">
@@ -150,16 +150,58 @@
 	  </div>
 	</div>
 
+
+	<div class="modal fade" id="recordModal" tabindex="-1" role="dialog" aria-labelledby="recordModalLabel" aria-hidden="true">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        <h2 class="modal-title" id="myModalLabel">犯錯紀錄</h2>
+	      </div>
+	      <div class="modal-body">
+	       <div class="panel panel-default">
+			  <div class="panel-body">
+			    <table class="table table-condensed">
+				    <thead>
+				    	<tr>
+					  	  <td></td>
+						  <td>事由</td>
+						  <td>時間</td>
+						  <td>狀態</td>
+						</tr>
+				    </thead>
+				    <tbody>
+					    <tr ng-repeat="record in recordModal">
+					  	  <td>{{$index +1}}</td>
+						  <td>{{record.reason}}</td>
+						  <td>{{record.createAt}}</td>
+						  <td ng-bind="record.archive ? '核實' : '未核實'">{{record.archive}}</td>
+						</tr>	
+				    </tbody>
+				  	
+				</table>
+			  </div>
+			</div>
+	      </div>
+	      <div class="modal-footer">
+		      <div class="form-group">
+		      	<button type="button" class="btn btn-default btn-lg input-lg form-control" data-dismiss="modal">關閉</button>
+		      </div>
+	        
+	       
+	       
+	      </div>
+	    </div>
+	  </div>
+	</div>
+
 	
     <script src="/components/jquery/dist/jquery.min.js"></script>
     <script src="/components/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="/components/angular/angular.js"></script>
     <script src="/components/angular-sweetalert/SweetAlert.js"></script>
     <script src="/components/sweetalert/lib/sweet-alert.js"></script>
-    <script src="/components/momentjs/min/moment.min.js"></script>
-    <script src="/components/momentjs/min/locales.min.js"></script>
-    <script src="/components/humanize-duration/humanize-duration.js"></script>
-    <script src="/components/angular-timer/dist/angular-timer.js"></script>
+
     <script>
 		$('#myModal').on('shown.bs.modal', function () {
 		  $('#reason').focus()

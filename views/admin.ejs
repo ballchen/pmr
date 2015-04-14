@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel='stylesheet' href='/components/bootstrap/dist/css/bootstrap.css' />
     <link rel='stylesheet' href='/components/font-awesome/css/font-awesome.css' />
+    <link rel='stylesheet' href='/components/sweetalert/lib/sweet-alert.css' />
     <style>
 
     </style>
@@ -12,18 +13,23 @@
   <body ng-app="adminApp" ng-controller="adminCtrl">
   
   	<div class="container" >
-  		<div class="col-lg-4 col-lg-offset-4 col-xs-12">
-  			<div class="form-group">
-  				<button class="btn btn-primary form-control">審判</button>
+  		<div class="col-lg-6 col-lg-offset-3 col-xs-12">
+  			<div class="form-group" >
+  				<button class="btn btn-primary form-control input-lg" ng-click="archiveRecord()">審判</button>
   			</div>
   			<div class="panel panel-default">
 			  <div class="panel-heading">
 			    <h3 class="panel-title">尚未審查</h3>
 			  </div>
 			  <div class="panel-body">
-			    <ul>
-			    	<li ng-repeat="record in records">{{record.user}}-{{record.createAt}}</li>
-			    </ul>
+			    <table class="table table-condensed">
+				  	<tr ng-repeat="record in records">
+					  <td>{{record.name}}</td>
+					  <td>{{record.reason}}</td>
+					  <td>{{record.createAt}}</td>
+					  <td><button class='btn btn-danger' ng-click="deleteRecord(record, $index)">刪除</button></td>
+					</tr>
+				</table>
 			  </div>
 			</div>
   		</div>
@@ -32,6 +38,8 @@
     <script src="/components/jquery/dist/jquery.min.js"></script>
     <script src="/components/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="/components/angular/angular.js"></script>
+    <script src="/components/angular-sweetalert/SweetAlert.js"></script>
+    <script src="/components/sweetalert/lib/sweet-alert.js"></script>
     <script src="/javascripts/admin/app.js"></script>
   </body>
 </html>
