@@ -27,6 +27,7 @@ userSchema.plugin(autoIncrement.plugin, {
 var recordSchema = new mongoose.Schema({
     id: Number,
     user: Number,
+    reason: String,
     archive: {
         type: Boolean,
         default: false

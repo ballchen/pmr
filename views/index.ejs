@@ -86,14 +86,14 @@
   </head>
   <body ng-app="myApp" ng-controller="indexCtrl">
 
-  	<div style="font-size: 5em; padding: 10px; width: 100%; text-align: center; font-weight: bold;color: white;">建 榜
+  	<div style="font-size: 5em; padding: 10px; width: 100%; text-align: center; color: white;">建 榜
 	
   	</div>
 	<div class="rankcontain">
 		<div class="col-lg-4 col-lg-offset-4 col-xs-12" ng-repeat="user in users">
 			<div class="rank">
-				<div class="photo">
-					<img ng-src="/images/{{user.name}}.png" alt="">
+				<div class="photo" ng-click='PlusD($index)'>
+					<img ng-src="{{user.image}}" alt="">
 				</div>
 				<div class="info">
 					<div class="name"><h4 ng-bind="user.name"></h4></div>
@@ -102,11 +102,14 @@
 				</div>
 				<div class="add">
 	<!-- 				<div class="addcover" ng-hide="user.click" ng-click="clickAdd(user)"> -->
-						
+						<!-- ng-click="clickAddConfirm(user, $index)" -->
 					<!-- </div> -->
-					<div class="addbut" id="timerSec" ng-click="clickAddConfirm(user, $index)">
+					<div class="addbut" id="timerSec" ng-click = 'clickAdd(user, $index)' data-toggle="modal" data-target="#myModal">
 						<i class="fa fa-plus fa-3x" ng-show="user.cooldown == 0"></i>
-						<timer ng-hide="user.cooldown == 0" countdown="user.cooldown" interval="1000" finish-callback="countdownFin(user.cooldown, $index)">冷卻中<br>{{countdown}}</timer>
+						<p ng-hide="user.cooldown == 0">
+							冷卻中<br><span ng-hide="user.cooldown == 0" ng-bind="user.cooldown"></span>
+						</p>
+						
 					</div>
 					
 					
@@ -116,6 +119,37 @@
 			
 		</div>
 	</div>
+
+
+
+	<!-- modal -->
+
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        <h2 class="modal-title" id="myModalLabel">給點理由吧</h2>
+	      </div>
+	      <div class="modal-body">
+	        <div class="form-group">
+				<input id="reason" type="text" class="form-control input-lg" ng-model="reason">
+	        </div>
+	      </div>
+	      <div class="modal-footer">
+		      <div class="form-group">
+		      	<button type="button" class="btn btn-default btn-lg input-lg form-control" data-dismiss="modal">沒事我按錯</button>
+		      </div>
+	        
+	        <div class="form-group">
+	        	 <button type="button" class="btn btn-primary btn-lg input-lg form-control" ng-click='clickAddConfirm(userModal.user, userModal.idx)'>送出</button>
+	        </div>
+	       
+	      </div>
+	    </div>
+	  </div>
+	</div>
+
 	
     <script src="/components/jquery/dist/jquery.min.js"></script>
     <script src="/components/bootstrap/dist/js/bootstrap.min.js"></script>
@@ -126,6 +160,11 @@
     <script src="/components/momentjs/min/locales.min.js"></script>
     <script src="/components/humanize-duration/humanize-duration.js"></script>
     <script src="/components/angular-timer/dist/angular-timer.js"></script>
+    <script>
+		$('#myModal').on('shown.bs.modal', function () {
+		  $('#reason').focus()
+		})
+	</script>
 
 
     <script src="/javascripts/app.js"></script>

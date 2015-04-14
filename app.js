@@ -48,7 +48,8 @@ app.get('/api/add/:id', function(req, res) {
                 });
             } else {
                 var newRec = new Record({
-                    user: req.params.id
+                    user: req.params.id,
+                    reason: (req.query.reason || '沒有理由')
                 });
                 newRec.save(function(err, data) {
                     if (err) {
@@ -61,7 +62,8 @@ app.get('/api/add/:id', function(req, res) {
             }
         } else {
             var newRec = new Record({
-                user: req.params.id
+                user: req.params.id,
+                reason: (req.query.reason || '沒有理由')
             });
             newRec.save(function(err, data) {
                 if (err) {
