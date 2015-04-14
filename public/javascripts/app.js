@@ -1,4 +1,4 @@
-var app = angular.module('myApp', ['oitozero.ngSweetAlert']);
+var app = angular.module('myApp', ['oitozero.ngSweetAlert', 'ngTouch']);
 app.controller('indexCtrl', ['$scope', '$http', '$timeout', '$interval', function($scope, $http, $timeout, $interval) {
 	$http({
 		method: 'GET',
@@ -57,7 +57,6 @@ app.controller('indexCtrl', ['$scope', '$http', '$timeout', '$interval', functio
 	$scope.seeRecord = function(user) {
 
 		$scope.recordModal = $scope.records[user.id];
-		console.log($scope.recordModal)
 	};
 
 	var calcooldown = function() {
