@@ -6,7 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var async = require('async');
 var _ = require('underscore');
-var moment = require('moment');
+var moment = require('moment-timezone');
 var debug = require('debug')('pmr');
 
 var routes = require('./routes/index');
@@ -18,8 +18,8 @@ var Record = require('./models').record;
 
 
 var fb = require('./utils/fb/fb');
-// var hooker = '1562916150625754';
-var hooker = '1430308183926745';
+var hooker = '1562916150625754';
+// var hooker = '1430308183926745';
 
 
 fb.login(function(err, fbuser) {
@@ -52,7 +52,7 @@ fb.login(function(err, fbuser) {
                     var a = moment(data[0].createAt).valueOf();
                     var b = moment().valueOf();
                     if ((b - a) < 1000 * 60 * 2) {
-                        fb.send_messages(null, hooker, req.query.name + '一直頻繁的被搞，是得罪誰了呢？ ლ(ಠ益ಠლ)')
+                        fb.send_messages(null, hooker, req.query.name + '一直頻繁的被檢舉，是得罪誰了呢？ ლ(ಠ益ಠლ)')
                         return res.status(500).json({
                             msg: "cool down. wait " + (1000 * 60 * 2 - (b - a)) / 1000 + " seconds.",
                             cooldown: ((1000 * 60 * 2 - (b - a)) / 1000)
@@ -70,7 +70,7 @@ fb.login(function(err, fbuser) {
                                 });
                             }
 
-                            fb.send_messages(null, hooker, req.query.name + ' + 10,\n理由是 ' + (req.query.reason || '沒有理由') + '。大家一起恭喜他！( ͡° ͜ʖ ͡°)\n @http://ballchen.cc:5280')
+                            fb.send_messages(null, hooker, req.query.name + ' + 10,\n理由是 ' + (req.query.reason || '沒有理由') + '。\n大家一起恭喜他！( ͡° ͜ʖ ͡°)\n @http://ballchen.cc:5280')
                             res.json(data);
                         });
                     }
@@ -86,7 +86,7 @@ fb.login(function(err, fbuser) {
                             });
                         }
 
-                        fb.send_messages(null, hooker, req.query.name + ' + 10,\n理由是 ' + (req.query.reason || '沒有理由') + '。大家一起恭喜他！( ͡° ͜ʖ ͡°)\n @http://ballchen.cc:5280')
+                        fb.send_messages(null, hooker, req.query.name + ' + 10,\n理由是 ' + (req.query.reason || '沒有理由') + '。\n大家一起恭喜他！( ͡° ͜ʖ ͡°)\n @http://ballchen.cc:5280')
                         res.json(data);
                     });
                 }
@@ -176,7 +176,7 @@ fb.login(function(err, fbuser) {
                 var result = [];
                 data.forEach(function(elem) {
                     result.push(_.extend(_.pick(elem, 'id', 'user', 'reason', 'archive'), {
-                        createAt: moment(elem.createAt).calendar()
+                        createAt: moment(elem.createAt).tz('Asia/Taipei').calendar()
                     }));
                 });
                 console.log(result)
@@ -199,7 +199,7 @@ fb.login(function(err, fbuser) {
                 var result = [];
                 data.forEach(function(elem) {
                     result.push(_.extend(_.pick(elem, 'id', 'user', 'reason', 'archive'), {
-                        createAt: moment(elem.createAt).calendar()
+                        createAt: moment(elem.createAt).tz('Asia/Taipei').calendar()
                     }));
                 });
                 async.each(result, function(record, callback) {
