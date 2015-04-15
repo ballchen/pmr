@@ -17,6 +17,9 @@
     "mongoose": "^4.0.1",
     "mongoose-auto-increment": "^4.0.0",
     "morgan": "~1.0.0",
-    "static-favicon": "~1.0.0"
+    "static-favicon": "~1.0.0",
+    "cron": "^1.0.6",
+    "request": "^2.51.0",
+    "tough-cookie": "^0.12.1"
   }
 }
