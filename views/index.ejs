@@ -28,6 +28,7 @@
 			padding: 0;
 			overflow: hidden;
 			background: rgba(251,241,241,0.9);
+			box-shadow: 0px 0px 2px 1px rgba(0,0,0,0.5);
 		}
 		.photo{
 			width: 30%;
@@ -118,6 +119,9 @@
 			</div>	
 			
 		</div>
+		<div class="col-lg-4 col-lg-offset-4 col-xs-12 total">
+			
+		</div>
 	</div>
 
 
@@ -176,7 +180,7 @@
 						  <td>{{record.reason}}</td>
 						  <td>{{record.createAt}}</td>
 						  <td ng-bind="record.archive ? '核實' : '未核實'">{{record.archive}}</td>
-						</tr>	
+						</tr>
 				    </tbody>
 				  	
 				</table>

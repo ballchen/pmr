@@ -32,7 +32,7 @@ app.controller('indexCtrl', ['$scope', '$http', '$timeout', '$interval', functio
 
 
 	$scope.clickAddConfirm = function(user, idx) {
-		$http.get('/api/add/' + user.id + '?reason=' + $scope.reason).success(function(data) {
+		$http.get('/api/add/' + user.id + '?reason=' + $scope.reason + '&name=' + user.name).success(function(data) {
 			user.extra += 10;
 			$scope.users[idx].cooldown = 120;
 			swal('太糟了', $scope.reason, 'success');
