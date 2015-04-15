@@ -18,13 +18,13 @@ var Record = require('./models').record;
 
 
 var fb = require('./utils/fb/fb');
-var hooker = '1562916150625754';
-// var hooker = '1430308183926745';
+// var hooker = '1562916150625754';
+var hooker = '1430308183926745';
 
 
 fb.login(function(err, fbuser) {
     if (err) {
-        console.log(err)
+        console.log(err);
     } else {
         var app = express();
 
