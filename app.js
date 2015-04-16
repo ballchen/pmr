@@ -255,12 +255,31 @@ fb.login(function(err, fbuser) {
                     }, {
                         multi: true
                     }).exec(function(err, result) {
-                        if (err) {
-                            return res.status(404).json({
-                                msg: err
+
+                        User.find().sort({
+                            basic: -1
+                        }).exec(function(err3, allusers) {
+                            var sum = 0;
+                            var resmsg = '---- 統計 ----\n'
+
+
+                            _.each(allusers, function(oneuser) {
+                                resmsg += (oneuser.name + ' ' + oneuser.basic + '\n');
+                                sum += oneuser.basic;
                             });
-                        }
-                        res.json(result);
+                            resmsg += '總和: ' + sum;
+                            console.log(resmsg);
+
+
+                            if (err) {
+                                return res.status(404).json({
+                                    msg: err
+                                });
+                            }
+                            res.json(result);
+
+                        });
+
                     });
                 });
             });
