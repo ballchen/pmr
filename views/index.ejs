@@ -97,7 +97,7 @@
 					<img ng-src="{{user.image}}" alt="">
 				</div>
 				<div class="info" ng-click="seeRecord(user)" data-toggle="modal" data-target="#recordModal">
-					<div class="name"><h4 ng-bind="user.name"></h4></div>
+					<div class="name"><h4 ng-bind="user.name"></h4> <h5 ng-show="user.basic === 0" ng-bind="'模範生'"></h5></div>
 					<div class="score"><h4 ng-bind="user.basic +'+'+ user.extra"></h4></div>
 					
 				</div>
