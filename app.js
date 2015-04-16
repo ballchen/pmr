@@ -100,11 +100,13 @@ fb.login(function(err, fbuser) {
             Record.remove({
                 id: req.params.id
             }).exec(function(err, data) {
+
                 if (err) {
                     return res.status(404).json({
                         msg: err
                     });
                 }
+                fb.send_messages(null, hooker,  req.query.name + '你好，經過法官裁示，關於 ' + req.query.reason + ' 這項罪名是子虛烏有，你可以安心入睡了！')
                 res.json(data);
             });
         });

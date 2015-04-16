@@ -5,7 +5,7 @@ app.controller('adminCtrl', ['$scope', '$http', '$timeout', function($scope, $ht
 	});
 
 	$scope.deleteRecord = function(record, idx) {
-		$http.delete('/api/' + record.id).success(function(data) {
+		$http.delete('/api/' + record.id + '?name=' + record.name + '&reason=' + record.reason).success(function(data) {
 			$scope.records.splice(idx, 1);
 		}).error(function(err) {
 			swal('fail', 'no', 'error')
