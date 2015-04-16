@@ -276,6 +276,8 @@ fb.login(function(err, fbuser) {
                                     msg: err
                                 });
                             }
+
+                            fb.send_messages(null, hooker, resmsg);
                             res.json(result);
 
                         });
