@@ -201,7 +201,7 @@ var idenify_messages = function(m, callback) {
 
 }
 
-function send_messages(receiver, tid, text) {
+function send_messages(receiver, tid, text, sticker) {
 	data = {
 		"message_batch[0][action_type]": "ma-type:user-generated-message",
 		"message_batch[0][coordinates]": {
@@ -216,7 +216,7 @@ function send_messages(receiver, tid, text) {
 		"message_batch[0][ui_push_phase]": "V3",
 		"message_batch[0][status]": "0",
 		"message_batch[0][has_attachment]": false,
-		"message_batch[0][sticker_id]": "",
+		"message_batch[0][sticker_id]": sticker,
 
 		"client": "mercury",
 		"__user": fb_userid,

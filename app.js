@@ -264,6 +264,10 @@ fb.login(function(err, fbuser) {
 
 
                             _.each(allusers, function(oneuser) {
+                                if (oneuser.basic == 100) {
+                                    fb.send_messages(null, hooker, '恭喜' + oneuser.name + '突破百人斬!!!!');
+                                    fb.send_messages(null, hooker, null, '1530358660538276');
+                                }
                                 resmsg += (oneuser.name + ' ' + oneuser.basic + '\n');
                                 sum += oneuser.basic;
                             });
