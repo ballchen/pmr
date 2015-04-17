@@ -106,7 +106,7 @@ fb.login(function(err, fbuser) {
                         msg: err
                     });
                 }
-                fb.send_messages(null, hooker,  req.query.name + '你好，經過法官裁示，關於 ' + req.query.reason + ' 這項罪名是子虛烏有，你可以安心入睡了！')
+                fb.send_messages(null, hooker,  req.query.name + '你好，雖然真的' + req.query.reason + '，但念你至情至深，給予你重新做人的機會。加油QAQ')
                 res.json(data);
             });
         });
