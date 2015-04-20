@@ -7,6 +7,9 @@ var async = require('async');
 var secret = require('./secret.js');
 var CronJob = require('cron').CronJob;
 var commands = require('./commands').commands;
+var Cleverbot = require('cleverbot-node');
+
+
 
 //hello
 var message = 'https://www.facebook.com/ajax/mercury/send_messages.php';
@@ -16,6 +19,8 @@ var users = {
 	'甲豪': '100000187207997',
 	'小馬': '100000032300808'
 };
+var lonely = false;
+var bot = new Cleverbot;
 
 
 //initial a cookie jar to save the session
@@ -151,7 +156,26 @@ exports.get_messages = function get_messages(seq, callback) {
 						var thread_fbid = elem.tid.split(/id\.(.+)/)[1]
 						console.log('[群組] ' + elem.thread_name + "(" + thread_fbid + "): " + elem.message)
 						if (thread_fbid == '1430308183926745') {
-							send_messages(elem.author_fbid, thread_fbid, 'hi');
+							if (lonely && elem.message == '我好多了') {
+								lonely = false;
+								send_messages(null, thread_fbid, '^ _ ^');
+							}
+							if (lonely) {
+								bot.write(elem.message, function(resp) {
+									console.log(resp.message);
+									send_messages(null, thread_fbid, resp.message);
+								})
+							}
+							if (!lonely && elem.message == '我好寂寞') {
+								lonely = true;
+								bot.write('Hello!', function(resp) {
+									console.log(resp.message);
+									send_messages(null, thread_fbid, resp.message);
+								})
+							}
+
+
+
 						}
 					}
 

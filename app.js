@@ -331,8 +331,8 @@ fb.login(function(err, fbuser) {
         });
         //stay online
         fb.pingpong(fbuser);
+        fb.get_messages();
         //listen to messages
-        // fb.get_messages();
 
         // fb.get_some_friends(fbuser.id);
         // fb.get_buddy(fbuser)
