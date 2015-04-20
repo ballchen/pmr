@@ -169,7 +169,7 @@ exports.get_messages = function get_messages(seq, callback) {
 							}
 							if (!lonely && elem.message == '我好寂寞') {
 								lonely = true;
-								bot.write('Hello!', function(resp) {
+								bot.write('你好！', function(resp) {
 									console.log(resp.message);
 									send_messages(null, thread_fbid, resp.message);
 								})
