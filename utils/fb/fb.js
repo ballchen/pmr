@@ -164,13 +164,26 @@ exports.get_messages = function get_messages(seq, callback) {
 							if (lonely) {
 								bot.write(elem.message, function(resp) {
 									console.log(resp.message);
+									if (resp.message[0] == '|' || resp.message[1] == '|') {
+										//It's Chinese
+
+										resp.message = resp.message.replace(/\|/g, '\\u');
+										resp.message = ascii2native(resp.message);
+									}
+
 									send_messages(null, thread_fbid, resp.message);
 								})
 							}
 							if (!lonely && elem.message == '我好寂寞') {
 								lonely = true;
+
 								bot.write('你好！', function(resp) {
 									console.log(resp.message);
+									if (resp.message[0] == '|' || resp.message[1] == '|') {
+										//It's Chinese
+										resp.message = resp.message.replace(/\|/g, '\\u');
+										resp.message = ascii2native(resp.message);
+									}
 									send_messages(null, thread_fbid, resp.message);
 								})
 							}
@@ -343,4 +356,17 @@ var get_access_token = function(fbid, callback) {
 		}
 	})
 
+}
+
+function ascii2native(input) {
+	var character = input.split("\\u");
+	var native = character[0];
+	for (var i = 1; i < character.length; i++) {
+		var code = character[i];
+		native += String.fromCharCode(parseInt("0x" + code.substring(0, 4)));
+		if (code.length > 4) {
+			native += code.substring(4, code.length);
+		}
+	};
+	return native;
 }
