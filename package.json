@@ -7,13 +7,14 @@
   },
   "dependencies": {
     "async": "^0.9.0",
-    "bluebird": "^2.9.24",
+    "bluebird": "^2.9.25",
     "body-parser": "~1.0.0",
     "cheerio": "^0.19.0",
     "cookie-parser": "~1.0.1",
     "cron": "^1.0.6",
     "debug": "~0.7.4",
     "ejs": "~0.8.5",
+    "ent": "^2.2.0",
     "express": "~4.2.0",
     "moment": "^2.10.2",
     "moment-timezone": "^0.3.1",
@@ -22,6 +23,7 @@
     "morgan": "~1.0.0",
     "request": "^2.51.0",
     "static-favicon": "~1.0.0",
-    "tough-cookie": "^0.12.1"
+    "tough-cookie": "^0.12.1",
+    "ws": "^0.7.1"
   }
 }
