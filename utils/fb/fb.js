@@ -221,8 +221,8 @@ exports.get_messages = function get_messages(seq, callback) {
 					else if (elem.tid.substr(0, 3) == 'id.') {
 						var thread_fbid = elem.tid.split(/id\.(.+)/)[1]
 						console.log('[群組] ' + elem.thread_name + "(" + thread_fbid + "): " + elem.message)
-						if (thread_fbid == '1430308183926745') {
-							// if (thread_fbid == '1562916150625754') {
+							// if (thread_fbid == '1430308183926745') {
+						if (thread_fbid == '1562916150625754') {
 							if (lonely && elem.message == '我好多了') {
 								lonely = false;
 								send_messages(null, thread_fbid, '^ _ ^');
