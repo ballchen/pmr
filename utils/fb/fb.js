@@ -257,7 +257,7 @@ exports.get_messages = function get_messages(seq, callback) {
 							// Wootalk Spy
 							// 
 							if (elem.message == '想聽相聲' || elem.message == '聽相聲') {
-								if (!wootalk_spy_on) {
+								if (!wootalk_spy_on && !wootalk_chat) {
 									wootalk_spy_on = true;
 									console.log('準備中...');
 									send_messages(null, thread_fbid, '準備中...');
@@ -279,7 +279,8 @@ exports.get_messages = function get_messages(seq, callback) {
 							}
 
 							// wootalk chat
-							if (elem.message == '想要妹子') {
+							if (elem.message == '想要妹子' && !wootalk_chat && !wootalk_spy_on) {
+
 								typing(null, thread_fbid);
 								console.log('hi');
 								//set who's chatter
