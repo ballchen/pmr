@@ -297,7 +297,7 @@ exports.get_messages = function get_messages(seq, callback) {
 							if (elem.author_fbid == '100002413654974') {
 								if (elem.message == '喔') {
 									send_messages(null, thread_fbid, '喔屁喔？');
-								} else(elem.message == '棒') {
+								} else if (elem.message == '棒') {
 									send_messages(null, thread_fbid, '閉嘴');
 								}
 							}
