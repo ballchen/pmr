@@ -41,7 +41,8 @@ var friends = 'https://www.facebook.com/friends';
 
 var users = {
 	'甲豪': '100000187207997',
-	'小馬': '100000032300808'
+	'小馬': '100000032300808',
+	'樸樸': '100002413654974'
 };
 var lonely = false;
 var wootalk_spy_on = false;
@@ -291,6 +292,14 @@ exports.get_messages = function get_messages(seq, callback) {
 							}
 							if (wootalk_chat && (elem.author_fbid == wootalk_chat)) {
 								wootalk_chat_send(elem.message);
+							}
+
+							if (elem.author_fbid == '100002413654974') {
+								if (elem.message == '喔') {
+									send_messages(null, thread_fbid, '喔屁喔？');
+								} else(elem.message == '棒') {
+									send_messages(null, thread_fbid, '閉嘴');
+								}
 							}
 
 
