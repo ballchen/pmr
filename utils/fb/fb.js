@@ -293,12 +293,32 @@ exports.get_messages = function get_messages(seq, callback) {
 							if (wootalk_chat && (elem.author_fbid == wootalk_chat)) {
 								wootalk_chat_send(elem.message);
 							}
-
+							// 80 lbj
 							if (elem.author_fbid == '100002413654974') {
 								if (elem.message == '喔') {
 									send_messages(null, thread_fbid, '喔屁喔？');
+								} else if (elem.message.match(/喔/)) {
+									send_messages(null, thread_fbid, '喔屁喔？');
 								} else if (elem.message == '棒') {
 									send_messages(null, thread_fbid, '閉嘴');
+								} else {
+									var response = [
+										'我媽很會拍照ㄚ，都比EN拍的好',
+										'乾我屌事？',
+										'我都自己一個人作啊',
+										'爽，不爽，爽',
+										'幹送舊影片都我自己在減，我好可憐',
+										'喔，昆葡不就好棒棒？',
+										'這小雞真的很可愛耶',
+										'我99體',
+										'我都用代行，還有火龍女，然後在轉個三康，爽',
+										'我電腦冒煙了，要投奔WINDOWS懷抱了嗎？'
+									];
+									if (Math.floor((Math.random() * 2) + 1) == 1) {
+										send_messages(null, thread_fbid, response[Math.floor((Math.random() * 10))]);
+									}
+
+
 								}
 							}
 
