@@ -56,6 +56,8 @@ var wsA;
 var wsB;
 var wsChat;
 
+var fightback = true;
+
 
 //initial a cookie jar to save the session
 var j = request.jar();
@@ -293,8 +295,30 @@ exports.get_messages = function get_messages(seq, callback) {
 							if (wootalk_chat && (elem.author_fbid == wootalk_chat)) {
 								wootalk_chat_send(elem.message);
 							}
+
+							if (elem.message == '好好，小馬夠了') {
+								if (fightback) {
+									fightback = false;
+									send_messages(null, thread_fbid, '無言，我閉嘴');
+								} else {
+									send_messages(null, thread_fbid, '乾我屌事');
+								}
+
+							}
+							if (elem.message == '80昆葡') {
+								if (!fightback) {
+									fightback = true;
+									send_messages(null, thread_fbid, '好XD');
+								} else {
+									send_messages(null, thread_fbid, '喔是喔');
+								}
+
+							}
+							if (elem.message == 'zoo') {
+								send_messages(null, thread_fbid, 'Z O O，有個果zoo真好ㄜ，喝的時候ZOO，喝完臉紅紅～');
+							}
 							// 80 lbj
-							if (elem.author_fbid == '100002413654974') {
+							if (elem.author_fbid == '100002413654974' && fightback) {
 								if (elem.message == '喔') {
 									send_messages(null, thread_fbid, '喔屁喔？');
 								} else if (elem.message.match(/喔/)) {
@@ -312,10 +336,20 @@ exports.get_messages = function get_messages(seq, callback) {
 										'這小雞真的很可愛耶',
 										'我99體',
 										'我都用代行，還有火龍女，然後在轉個三康，爽',
-										'我電腦冒煙了，要投奔WINDOWS懷抱了嗎？'
+										'我小五爬玉山，背了五公斤，屌打你們',
+										'我電腦冒煙了，要投奔WINDOWS懷抱了嗎？',
+										'我電腦藍屏',
+										'在喀一單好了',
+										'我哥真的很屌，每次帶回來女的都不一樣',
+										'我騎BWS',
+										'我抽到714，但最近都不太喜歡用了，還是用我的木奶',
+										'爽，我Unfollow',
+										'我真的很討厭泰泰',
+										'冒煙欸欸崩潰了啦',
+										'有一個住附近的好朋友真的超棒der，隨揪隨到又聽我喇賽這麼貼心這樣'
 									];
-									if (Math.floor((Math.random() * 2) + 1) == 1) {
-										send_messages(null, thread_fbid, response[Math.floor((Math.random() * 10))]);
+									if (Math.floor((Math.random() * 4) + 1) == 1) {
+										send_messages(null, thread_fbid, response[Math.floor((Math.random() * response.length))]);
 									}
 
 
