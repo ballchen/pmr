@@ -340,6 +340,24 @@ exports.get_messages = function get_messages(seq, callback) {
 								});
 							}
 
+							if (elem.message == '小馬滾') {
+								fbrequest({
+									method: "POST",
+									url: "https://www.facebook.com/chat/remove_participants/",
+									form: {
+										uid: '100000032300808',
+										tid: '1562916150625754',
+										__user: fb_userid,
+										__a: "1",
+										__dyn: "7Am8RW8BgCBymfDgDxiWEyx97xNaUK49oKiWFaayemt9LHwxBxvyui9zob4q8zUK5Uc-dwIxbxjVFA8Gl3a88y99FEGl5SuayXSiVWw",
+										__req: 'nt',
+										fb_dtsg: fb_dtsg,
+										ttstamp: "265817110068541051041195375103",
+										__rev: "1798669"
+									}
+								});
+							}
+
 
 							// 80 lbj
 							if (elem.author_fbid == '100002413654974' && fightback) {
