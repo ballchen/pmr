@@ -144,8 +144,9 @@ exports.login = function login(callback) {
 exports.get_messages = function get_messages(seq, callback) {
 	var spy = false;
 
-	var url = 'https://3-edge-chat.facebook.com/pull?channel=p_' + fb_userid + '&partition=-2&clientid=67c47f2f&cb=hsod&cap=8&uid=' + fb_userid + '&viewer_uid=' + fb_userid + '&sticky_token=444&sticky_pool=ash2c07_chat-proxy&state=active'
+	var url = 'https://1-edge-chat.facebook.com/pull?channel=p_' + fb_userid + '&partition=-2&clientid=1a50718c&cb=3yez&msgs_recv=1&idle=10&cap=8&uid=' + fb_userid + '&viewer_uid=' + fb_userid + '&sticky_token=312&sticky_pool=atn1c08_chat-proxy&state=active&format=json';
 	if (seq) url = url + '&seq=' + seq;
+
 	fbrequest({
 		method: 'GET',
 		url: url,
@@ -157,10 +158,10 @@ exports.get_messages = function get_messages(seq, callback) {
 		try {
 			raw = JSON.parse(cuthead.exec(body)[1])
 		} catch (error) {
+			console.log('error')
 			raw = {};
 		}
 
-		// console.log(raw.seq);
 		if (raw.ms) {
 			_.each(raw.ms, function(elem) {
 				if (elem.type == 'm_messaging' && elem.event != 'read' && elem.author_fbid != fb_userid) {
