@@ -6,13 +6,13 @@ function native2ascii() {
 		if (!document.getElementById("ignoreLetter").checked || code > 127) {
 			var charAscii = code.toString(16);
 			charAscii = new String("0000").substring(charAscii.length, 4) + charAscii;
-			ascii += "\\u" + charAscii
+			ascii += "\\u" + charAscii;
 		} else {
 			ascii += character[i];
 		}
-	};
+	}
 	document.getElementById("asciiTa").value = ascii;
-};
+}
 
 function ascii2native() {
 	var character = document.getElementById("asciiTa").value.split("\\u");
@@ -23,6 +23,6 @@ function ascii2native() {
 		if (code.length > 4) {
 			native += code.substring(4, code.length);
 		}
-	};
+	}
 	document.getElementById("characterTa").value = native;
 }

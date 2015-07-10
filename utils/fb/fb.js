@@ -63,7 +63,8 @@ var fightback = true;
 var j = request.jar();
 var fbrequest = request.defaults({
 	headers: {
-		'User-Agent': 'Mozilla/5.0 (Windows NT 5.1; rv:31.0) Gecko/20100101 Firefox/31.0'
+		'User-Agent': 'Mozilla/5.0 (Windows NT 5.1; rv:31.0) Gecko/20100101 Firefox/31.0',
+		'Cookie': '_js_reg_fb_gate=https%3A%2F%2Fwww.facebook.com%2F;'
 	},
 	jar: j
 })
