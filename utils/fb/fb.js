@@ -122,7 +122,7 @@ exports.login = function login(callback) {
 
 				console.log('logged in!')
 
-				fb_userid = (body.split(/USER_ID":"(\d+)/)[1]);
+				fb_userid = httpResponse.request.headers.Cookie.match(/c_user\=(.*?)\;/)[1];
 				fb_dtsg = (body.split(/fb_dtsg" value="(.*?)"/)[1]);
 
 				var fbuser = {
