@@ -165,75 +165,75 @@ exports.get_messages = function get_messages(seq, callback) {
 
 		if (raw.ms) {
 			_.each(raw.ms, function(elem) {
-				if (elem.type == 'm_messaging' && elem.event != 'read' && elem.author_fbid != fb_userid) {
+				if (elem.type == 'messaging' && elem.event == 'deliver' && elem.message.sender_fbid != fb_userid) {
 
 					//person message
-					if (elem.tid.substr(0, 3) == 'mid') {
-						console.log('[個人] ' + elem.author_name + "(" + elem.author_fbid + "): " + elem.message);
+					if (!elem.message.thread_fbid) {
+						console.log('[個人] ' + elem.message.sender_name + "(" + elem.message.sender_fbid + "): " + elem.message.body);
 
-						if (elem.author_fbid == '100002590277281') {
-							if (elem.message == 'spy on') {
+						if (elem.message.sender_fbid == '100002590277281') {
+							if (elem.message.body == 'spy on') {
 								spy = true;
-								send_messages(elem.author_fbid, null, '竊聽模式已打開');
-							} else if (elem.message == 'spy off') {
+								send_messages(elem.message.sender_fbid, null, '竊聽模式已打開');
+							} else if (elem.message.body == 'spy off') {
 								spy = false;
-								send_messages(elem.author_fbid, null, '竊聽模式已關閉');
+								send_messages(elem.message.sender_fbid, null, '竊聽模式已關閉');
 							}
 
-							if (elem.message == '想聽相聲') {
+							if (elem.message.body == '想聽相聲') {
 								if (!wootalk_spy_on) {
 									wootalk_spy_on = true;
 									console.log('準備中...');
-									send_messages(elem.author_fbid, null, '準備中...');
-									wootalk_spy(elem.author_fbid);
+									send_messages(elem.message.sender_fbid, null, '準備中...');
+									wootalk_spy(elem.message.sender_fbid);
 								} else {
-									send_messages(elem.author_fbid, null, '< 這場表演尚未結束 >');
+									send_messages(elem.message.sender_fbid, null, '< 這場表演尚未結束 >');
 								}
 
 							}
-							if (elem.message == '滾') {
+							if (elem.message.body == '滾') {
 								if (wootalk_spy_on) {
 									wsA.close();
 									wsB.close();
-									send_messages(elem.author_fbid, null, 'A、B：「 客倌別生氣，我們這就滾 ^ ^" 」');
+									send_messages(elem.message.sender_fbid, null, 'A、B：「 客倌別生氣，我們這就滾 ^ ^" 」');
 								} else {
-									send_messages(elem.author_fbid, null, '兇屁兇？幹！');
+									send_messages(elem.message.sender_fbid, null, '兇屁兇？幹！');
 								}
 
 							}
 
-							if (elem.message == '想要妹子') {
-								send_messages(elem.author_fbid, null, '我來了！');
+							if (elem.message.body == '想要妹子') {
+								send_messages(elem.message.sender_fbid, null, '我來了！');
 
 							}
 
 						}
 
-						idenify_messages(elem.message, function(response) {
+						idenify_messages(elem.message.body, function(response) {
 							if (response.action == 'back') {
-								send_messages(elem.author_fbid, null, response.response);
+								send_messages(elem.message.sender_fbid, null, response.response);
 							} else if (response.action == 'forward') {
 								send_messages(response.receiver, null, response.response);
 							}
 						})
 
-						// search_user(fb_userid, [elem.author_fbid], function(err, result) {
+						// search_user(fb_userid, [elem.message.sender_fbid], function(err, result) {
 
 						// });
 					}
 
 					//group message
-					else if (elem.tid.substr(0, 3) == 'id.') {
-						var thread_fbid = elem.tid.split(/id\.(.+)/)[1]
+					else if (elem.message.thread_fbid) {
+						var thread_fbid = elem.message.thread_fbid
 						console.log('[群組] ' + elem.thread_name + "(" + thread_fbid + "): " + elem.message)
 							// if (thread_fbid == '1430308183926745') {
 						if (thread_fbid == '1562916150625754') {
-							if (lonely && elem.message == '我好多了') {
+							if (lonely && elem.message.body == '我好多了') {
 								lonely = false;
 								send_messages(null, thread_fbid, '^ _ ^');
 							}
 							if (lonely) {
-								bot.write(elem.message, function(resp) {
+								bot.write(elem.message.body, function(resp) {
 									console.log(resp.message);
 									if (resp.message[0] == '|' || resp.message[1] == '|') {
 										//It's Chinese
@@ -245,7 +245,7 @@ exports.get_messages = function get_messages(seq, callback) {
 									send_messages(null, thread_fbid, resp.message);
 								})
 							}
-							if (!lonely && elem.message == '我好寂寞') {
+							if (!lonely && elem.message.body == '我好寂寞') {
 								lonely = true;
 
 								bot.write('你好！', function(resp) {
@@ -261,7 +261,7 @@ exports.get_messages = function get_messages(seq, callback) {
 
 							// Wootalk Spy
 							// 
-							if (elem.message == '想聽相聲' || elem.message == '聽相聲') {
+							if (elem.message.body == '想聽相聲' || elem.message.body == '聽相聲') {
 								if (!wootalk_spy_on) {
 									wootalk_spy_on = true;
 									console.log('準備中...');
@@ -272,7 +272,7 @@ exports.get_messages = function get_messages(seq, callback) {
 								}
 
 							}
-							if (elem.message == '滾') {
+							if (elem.message.body == '滾') {
 								if (wootalk_spy_on) {
 									wsA.close();
 									wsB.close();
@@ -284,23 +284,23 @@ exports.get_messages = function get_messages(seq, callback) {
 							}
 
 							// wootalk chat
-							if (elem.message == '想要妹子') {
+							if (elem.message.body == '想要妹子') {
 								typing(null, thread_fbid);
 								console.log('hi');
 								//set who's chatter
 
-								wootalk_chat = elem.author_fbid;
+								wootalk_chat = elem.message.sender_fbid;
 								wootalk_chat_fc(null, thread_fbid);
 
 
 							}
-							if (wootalk_chat && (elem.author_fbid == wootalk_chat)) {
-								wootalk_chat_send(elem.message);
+							if (wootalk_chat && (elem.message.sender_fbid == wootalk_chat)) {
+								wootalk_chat_send(elem.message.body);
 							}
 
-							if (elem.message == '好好，小馬夠了') {
+							if (elem.message.body == '好好，小馬夠了') {
 
-								if (elem.author_fbid == '100002413654974') {
+								if (elem.message.sender_fbid == '100002413654974') {
 									send_messages(null, thread_fbid, '你沒資格命令我，滾');
 								} else if (fightback) {
 									fightback = false;
@@ -310,7 +310,7 @@ exports.get_messages = function get_messages(seq, callback) {
 								}
 
 							}
-							if (elem.message == '80昆葡') {
+							if (elem.message.body == '80昆葡') {
 								if (!fightback) {
 									fightback = true;
 									send_messages(null, thread_fbid, '好XD');
@@ -319,12 +319,12 @@ exports.get_messages = function get_messages(seq, callback) {
 								}
 
 							}
-							if (elem.message == 'zoo') {
+							if (elem.message.body == 'zoo') {
 								send_messages(null, thread_fbid, 'Z O O，有個果zoo真好ㄜ，喝的時候ZOO，喝完臉紅紅～');
 							}
 
 							//kick ppl
-							if (elem.message == '坤樸滾') {
+							if (elem.message.body == '坤樸滾') {
 								fbrequest({
 									method: "POST",
 									url: "https://www.facebook.com/chat/remove_participants/",
@@ -342,7 +342,7 @@ exports.get_messages = function get_messages(seq, callback) {
 								});
 							}
 
-							if (elem.message == '小馬滾') {
+							if (elem.message.body == '小馬滾') {
 								fbrequest({
 									method: "POST",
 									url: "https://www.facebook.com/chat/remove_participants/",
@@ -362,12 +362,12 @@ exports.get_messages = function get_messages(seq, callback) {
 
 
 							// 80 lbj
-							if (elem.author_fbid == '100002413654974' && fightback) {
-								if (elem.message == '喔') {
+							if (elem.message.sender_fbid == '100002413654974' && fightback) {
+								if (elem.message.body == '喔') {
 									send_messages(null, thread_fbid, '喔屁喔？');
-								} else if (elem.message.match(/喔/)) {
+								} else if (elem.message.body.match(/喔/)) {
 									send_messages(null, thread_fbid, '喔屁喔？');
-								} else if (elem.message == '棒') {
+								} else if (elem.message.body == '棒') {
 									send_messages(null, thread_fbid, '閉嘴');
 								} else {
 									var response = [
